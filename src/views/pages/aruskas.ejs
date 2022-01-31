@@ -1,0 +1,101 @@
+<div class="card">
+    <div class="card-body">
+        <form action="/aruskas" method="post">
+            <div class="row">
+                <div class="col-sm">  
+                    <h6>Kas</h6>                  
+                    <select class="form-select form-select-sm" name="inpKas" id="inpKas" required>
+                        <option value="0">Pilih Kas</option>                          
+                        <option value="kas1">Kas tunai</option>        
+                        <option value="kas3">Kas Bank Lain</option>
+                    </select>
+                </div>
+                <div class="col-sm">
+                    <h6>Periode</h6>
+                    <div class="row">
+                        <div class="col-sm">
+                            <input type="date" class="form-control form-control-sm" id="startdate" name="startdate" required>
+                        </div>
+                        <div class="col-sm-auto">s/d</div>                    
+                        <div class="col-sm">
+                            <input type="date" class="form-control form-control-sm" id="enddate" name="enddate" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-auto align-self-end">
+                    <button type="submit" class="btn btn-sm btn-primary px-3">Tampilkan</button>
+                </div>
+            </div>
+        </form>        
+    </div>
+</div>
+<div class="card mt-3">
+    <div class="card-body">
+        <h5 class="text-center text-uppercase">Laporan Arus Kas</h5>
+        <table class="table table-sm table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                  <th class="text-center" scope="col" style="width: 10%;">Nomor</th>
+                  <th class="text-center" scope="col" style="width: 60%;">Uraian</th>
+                  <th class="text-center" scope="col" style="width: 30%;">Jumlah</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td class="fw-bold">PENERIMAAN</td>
+                    <td></td>
+                </tr>
+                <% for( let i = 0; i < penerimaan.length; i++ ) { %>
+                <tr>
+                    <td class="text-center">1.<%= penerimaan[i].sub %> </td>
+                    <td><%= penerimaan[i].dess %> </td>
+                    <td class="text-end"><%= penerimaan[i].total %> </td>
+                </tr>
+                <% } %>
+                <tr>
+                    <td></td>
+                    <td class="fw-bold">TOTAL PENERIMAAN</td>
+                    <td class="fw-bold text-end"><%= total_penerimaan %></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm  table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                  <th class="text-center" scope="col" style="width: 10%;">Nomor</th>
+                  <th class="text-center" scope="col" style="width: 60%;">Uraian</th>
+                  <th class="text-center" scope="col" style="width: 30%;">Jumlah</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th></th>
+                    <td class="fw-bold">PENGELUARAN</td>
+                    <td></td>
+                </tr>
+                <% for( let i = 0; i < pengeluaran.length; i++ ) { %>
+                <tr>
+                    <td class="text-center">1.<%= pengeluaran[i].sub %> </td>
+                    <td><%= pengeluaran[i].dess %> </td>
+                    <td class="text-end"><%= pengeluaran[i].total %> </td>
+                </tr>
+                <% } %>
+                <tr>
+                    <td></td>
+                    <td class="fw-bold">TOTAL PENGELUARAN</td>
+                    <td class="fw-bold text-end"><%= total_pengeluaran %></td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <table class="table table-sm  table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                  <th class="text-center" scope="col" style="width: 70%;">Kas</th>
+                  <th class="text-center" scope="col" style="width: 30%;">Total</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
