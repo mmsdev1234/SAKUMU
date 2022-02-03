@@ -1,0 +1,4 @@
+1.modal menu edit cek ?
+2.req body darimana ? -> lihat contoh add kelas = dari name/id
+3.function multer
+4.function read data excel
