@@ -471,53 +471,34 @@ const getListSiswa = async (req, res) => {
         console.log(error);
     }
 }
-
 //upload template excel
-
-
 const uploadTemplate = async function(req, res, next){
-    // var fileup = req.file;
-      // console.log(req.file, req.body);
-      //read excelfile
-      readXlsxFile('uploads/formFileTemplate.xlsx').then((rows) => {
-        rows.shift();
-        let data = [];
-        rows.map(row => {
-          const tutorial = {
-            Nis: row[0],
-            Nama: row[1],
-            Kelas: row[2],
-          };
-          data.push(tutorial);
-        });
-        //  const tes =  data.map(item => ("(" + item.Nis + ", " + item.Nama + ", " + item.Kelas + ")"))
-        let form = []
-        for (let i = 0; i < data.length; i++) {
-          const nis = data[i].Nis
-          const nama = data[i].Nama
-          const kd = data[i].Kelas
-
-          const masuk = appSiswa.addSiswa(kd,nis,nama, function(data) {
-            if (data.status === "ok") {
-                res.redirect("/settings/editkelas?kd="+kd);
-            }else{
-                res.redirect("/settings/editkelas?kd="+kd);
-            }
-            return masuk
-        });
-          // const format = `(${nis},${nama},${kd},)`
-          // form.push(format).toString()
-        }
-
-          console.log({
-            // status:"ok",
-            // message:"get data success",
-            // tes
-            // form
-          })
+  // try {
+    var kd = req.query.kd;
+    readXlsxFile('uploads/formFileTemplate.xlsx').then((rows) => {
+      rows.shift();
+      let data_Template = [];
+      rows.map(row => {
+        const tutorial = {
+          Nis: row[0],
+          Nama: row[1],
+          Kelas: row[2],
+        };
+        data_Template.push(tutorial);
+      });
+      console.log(data_Template);
+      return appSiswa.addTemplate(data_Template, function(data) {
+        if (data.status === "ok") {
+          res.redirect("/settings/editkelas?kd="+kd);
+        }else{
+          res.redirect("/settings/editkelas?kd="+kd);
+      }
       })
+    })
+  // } catch (error) {
+  //   console.log(error);
+  // }
       next()
-    // console.log(fileup);
 }
 
 //CHECK LOGIN

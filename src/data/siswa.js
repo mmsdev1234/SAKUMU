@@ -176,6 +176,32 @@ const getSiswa = async function(kelas, callback) {
     }
 }
 
+const addTemplate = async function(data_template, callback) {
+  const maping = data_template.map(item => (`('${item.Nis}','${item.Nama}','${item.Kelas}')`))
+  // const dash = data_template.map(item => (`${item.Nis},${item.Nama},${item.Kelas}`))
+  const conv = maping.toString()
+  // const dashing = dash
+  console.log(conv);
+  let checkNis = `SELECT * FROM SISWA `;
+  console.log(checkNis);
+  let query = `INSERT INTO SISWA (nis,nama,kelas) VALUES ${conv}`
+  try {
+    const row = db.prepare(checkNis).get(conv);
+    console.log(row);
+        if (row) {
+            console.log("- gagal menambahkan siswa, NIS sudah terdaftar");
+            return callback({status:"no", msg: "gagal menambahkan siswa, NIS sudah terdaftar"});
+        }else{
+          const insert = db.prepare(query).run()
+          if (insert.changes > 0) {
+            callback({status:"ok", msg:"success"})
+          }
+        }
+  } catch (error) {
+    console.log();
+  }
+}
+
 module.exports = {
     getKelas,
     addKelas,
@@ -186,5 +212,6 @@ module.exports = {
     delAll,
     delSelected,
     editSiswa,
-    getSiswa
+    getSiswa,
+    addTemplate
 }

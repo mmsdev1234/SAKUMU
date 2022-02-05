@@ -1,4 +1,7 @@
 1.modal menu edit cek ?
 2.req body darimana ? -> lihat contoh add kelas = dari name/id
-3.function multer
-4.function read data excel
+3.function multer -> done
+4.function read data excel -> done
+5.chart.js -> masih data statis
+6.input data excel into db -> sudah masuk -> tidak bisa redirect -> cek sudah ada siswa
+7.bedah array
