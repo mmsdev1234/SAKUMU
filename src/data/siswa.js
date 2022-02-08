@@ -1,10 +1,15 @@
 'use strict';
 const db = require('./database').db
 
+//fungsi yang akan digunakan di appCOntroller getSetSiswa
+//buat fungsi yang mempunyai parameter callback fungsi
 const getKelas = async function(callback) {
+  //buat query dimasukkan ke variable get
     let get = "SELECT *FROM KELAS ORDER BY kd";
     try {
+      // inisialisasi dengan better-sqlite3
         const rows = db.prepare(get).all();
+        //callback fungsi yang diisi dengan parameter query yang dimana akan dilempar ke controller
         return callback(rows);
     } catch (error) {
         console.log(error);
@@ -181,13 +186,18 @@ const addTemplate = async function(data_template, callback) {
   // const dash = data_template.map(item => (`${item.Nis},${item.Nama},${item.Kelas}`))
   const conv = maping.toString()
   // const dashing = dash
+  const tes = []
+  for (let i = 0; i < conv.length; i++) {
+    const nis = conv[i].Nis
+    return console.log(nis);
+  }
   console.log(conv);
   let checkNis = `SELECT * FROM SISWA `;
-  console.log(checkNis);
+  // console.log(checkNis);
   let query = `INSERT INTO SISWA (nis,nama,kelas) VALUES ${conv}`
   try {
     const row = db.prepare(checkNis).get(conv);
-    console.log(row);
+    // console.log(row);
         if (row) {
             console.log("- gagal menambahkan siswa, NIS sudah terdaftar");
             return callback({status:"no", msg: "gagal menambahkan siswa, NIS sudah terdaftar"});

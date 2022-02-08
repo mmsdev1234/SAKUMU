@@ -19,7 +19,9 @@ router.get('/logout', mainControll.getLogout);
 router.get('/settings', appControll.getSetting);
 router.get('/settings/akun', appControll.getSetAkun);
 router.get('/settings/kas', appControll.getSetKas);
+//halaman setting menu
 router.get('/settings/menu', appControll.getSetMenu);
+//halaman pengaturan setting siswa
 router.get('/settings/siswa', appControll.getSetSiswa);
 router.get('/app/sync', mainControll.getSync);
 

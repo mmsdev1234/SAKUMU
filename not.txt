@@ -1,7 +1,72 @@
+-- kantor
 1.modal menu edit cek ?
 2.req body darimana ? -> lihat contoh add kelas = dari name/id
 3.function multer -> done
 4.function read data excel -> done
-5.chart.js -> masih data statis
+5.chart.js -> masih data statis->done
 6.input data excel into db -> sudah masuk -> tidak bisa redirect -> cek sudah ada siswa
-7.bedah array
+  (opsi cek data siswa -> 1.buat nis = (primarykey) 2.ganti fungsi jadi looping 3.buat fungsi cek)
+7.donut chart(percentage)->layout(done)->dynamic data(done)
+8.bar horizontal chart for(sumber kas)->layout(done) ->dynamic data(done) ->dynamic label(undone) ->data minus(undone)
+9.delete kas -> delete value dalam tabel kas(undone) -> ubah value pada kolom kas=kas1 pada tabel pen&peng(undone)
+
+-- petan2
+1.alur menu (CRUD) ->getmenu(done)->addmenu(done)->edit(progress)->delete menu(done)-> modal edit switchdb(progress)
+2.alur kelas (CRUD) ->getkelas(done)->addkelas(undone)->deletekelas(undone)->editkelas(undone)
+3.alur siswa (CRUD) ->getsiswa(undone)->addsiswa(undone)->deletesiswa(undone)->editsiswa(undone)
+4.alur neraca ->alur data penerimaan(undone) ->alur data pengeluaran(done)
+
+-- ask ?
+1.apakah sumber kas dinamis
+2.learning map
+
+-- sumber
+https://css-tricks.com/the-many-ways-of-getting-data-into-charts/
+
+
+
+
+
+--- back up code
+====chart---
+
+//setting data and color
+const data = {
+  labels: labels,
+  datasets: [{
+    label: 'My First dataset',
+    backgroundColor: 'rgb(255, 99, 132)',
+    borderColor: 'rgb(255, 99, 132)',
+    data: [100, 10, 5, 2, 20, 30, 45],
+  }]
+};
+
+//config type chart
+const config = {
+  type: 'line',
+  data: data,
+  options: {}
+};
+
+===getMenu---
+    try {
+        const cek = cekLogin(req.session.loggedIn);
+        await Promise.resolve(cek).then(result =>{
+            if (result == true) {
+                getmenu(function(listmenu) {
+                    res.render('./pages/dashboard',{
+                        title: 'Dashboard',
+                        page: 'dashboard',
+                        menu: 'dashboard',
+                        layout: 'main-layout',
+                        listmenu
+                    });
+                });
+            }else{
+                req.session.destroy();
+                res.redirect('/login');
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    } 

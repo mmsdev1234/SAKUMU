@@ -65,27 +65,71 @@ const getLogin = async (req, res) => {
 }
 
 const getDashboard = async(req,res) => {
-    try {
-        const cek = cekLogin(req.session.loggedIn);
-        await Promise.resolve(cek).then(result =>{
-            if (result == true) {
-                getmenu(function(listmenu) {
-                    res.render('./pages/dashboard',{
-                        title: 'Dashboard',
-                        page: 'dashboard',
-                        menu: 'dashboard',
-                        layout: 'main-layout',
-                        listmenu
-                    });
-                });
-            }else{
-                req.session.destroy();
-                res.redirect('/login');
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }    
+  try {
+    const cek = cekLogin(req.session.loggedIn);
+    await Promise.resolve(cek).then(result =>{
+        if (result == true) {
+            appNeraca.getLaporanLabarugi(function(data) {
+                if (data.status === "ok") {
+                    const dataIn = data.data.filter(item => item.kategori === "penerimaan");
+                    var finalIn = [];
+                    let totalIn = 0;
+                    for (let i = 0; i < dataIn.length; i++) {
+                        finalIn.push({
+                            sub:dataIn[i].sub,
+                            dess:dataIn[i].dess,
+                            total: rupiah.convert(dataIn[i].total)
+                        })
+                        totalIn += dataIn[i].total
+                    }
+                    const dataOut = data.data.filter(item => item.kategori === "pengeluaran");
+                    var finalOut =[];
+                    let totalOut = 0;
+                    for (let i = 0; i < dataOut.length; i++) {
+                        finalOut.push({
+                            sub:dataOut[i].sub,
+                            dess:dataOut[i].dess,
+                            total: rupiah.convert(dataOut[i].total)
+                        })
+                        totalOut += dataOut[i].total
+                    }
+                    appKas.getSaldoKas(function(data) {
+                      const inout = data['inout'];
+                      const kas = data['kas'];
+                      const newarray = [];
+                      for (let i = 0; i < kas.length; i++) {
+                          const totalkas = inout['in'+kas[i].id] - inout['out'+kas[i].id]
+                          const newdata = {
+                              id: kas[i].id,
+                              nama: kas[i].nama,
+                              total: totalkas
+                          }
+                          newarray.push(newdata);
+                      }
+                      getmenu(function(listmenu) {
+                            res.render('./pages/dashboard',{
+                              title: 'dashboard',
+                              page: 'dashboard',
+                              menu: 'dashboard',
+                              layout: 'main-layout',
+                              penerimaan: finalIn,
+                              total_penerimaan: totalIn,
+                              pengeluaran: finalOut,
+                              total_pengeluaran: totalOut, 
+                              kas: newarray,
+                              listmenu
+                          })
+                      });
+                  });
+                }
+            });
+        }else{
+            res.redirect('/logout');
+        }
+    }); 
+} catch (error) {
+    console.log(error);
+}  
 }
 
 const getProfile = async (req,res) => {
@@ -151,12 +195,13 @@ const getKas = async (req,res) => {
         console.log(error);
     }    
 }
-
+//fungsi arus kas dari route(appRoutes)
 const getArusKas = async (req,res) => {
     try {
         const cek = cekLogin(req.session.loggedIn);
         await Promise.resolve(cek).then(result =>{
             if (result == true) {
+              //fungsi diambil dari data/neraca.js
                 appNeraca.getLaporanLabarugi(function(data) {
                     if (data.status === "ok") {
                         const dataIn = data.data.filter(item => item.kategori === "penerimaan");
@@ -182,6 +227,7 @@ const getArusKas = async (req,res) => {
                             })
                             totalOut += dataOut[i].total
                         }
+                        const laba = totalIn - totalOut
                         getmenu(function(listmenu) {
                             res.render('./pages/aruskas',{
                                 title: 'Laba Rugi',
@@ -190,6 +236,7 @@ const getArusKas = async (req,res) => {
                                 layout: 'settings-layout',
                                 listmenu,
                                 penerimaan: finalIn,
+                                Hasil:laba,
                                 total_penerimaan: rupiah.convert(totalIn),
                                 pengeluaran: finalOut,
                                 total_pengeluaran: rupiah.convert(totalOut) 

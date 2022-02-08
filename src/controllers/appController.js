@@ -83,10 +83,15 @@ const getSetMenu = async (req, res) => {
             if (result == true) {
                 // getmenu memiliki parameter fungsi yang berasal dari parameter allmenu pada fungsi callback
                 getmenu(function(listmenu) {
+                  //render ke /pages/set-menu
                     res.render('./pages/set-menu', {
+                      //masukkan title tab dinamis ke layout
                         title: 'Pengaturan Menu',
+                        //page di render di sidebar
                         page: 'setting',
+                        //page di render di sidebar
                         menu: 'menu',
+                        //menggunakan layout setting
                         layout: 'settings-layout',
                         // listmenu in dan out berdasarkan pada json dari fungsi getmenu bawah
                         inmenu: listmenu.in,
@@ -130,19 +135,29 @@ const getEditKelas = async (req, res) => {
     }    
 }
 
+//appSiswa.getkelas->data/siswa(fungsi get kelas)
 const getSetSiswa = async (req, res) => {
     try {
         const cek = cekLogin(req.session.loggedIn);
         await Promise.resolve(cek).then(result => {
             if (result == true) {
+                // return fungsi getKelas dari data/siswa.js dengan parameter fungsi yang mempunyai parameter data
                 return appSiswa.getKelas(function(data) {
+                  //panggil fungsi getmenu
                     getmenu(function(listmenu) {
+                      //render ke halaman
                         res.render('./pages/set-siswa', {
+                          //masukkan title dinamis di lempar ke layout
                             title: 'Pengaturan Data Siswa',
+                            //page dirender di sidebar
                             page: 'setting',
+                            //menu di render di sidebar
                             menu: 'siswa',
+                            //layout yang digunakan
                             layout: 'settings-layout',
+                            //listmenu dirender di sidebar
                             listmenu,
+                            //data di render di set-siswa
                             data
                         });
                     });
@@ -371,12 +386,14 @@ const delMenu = async (req, res) => {
         console.log(error);
     }
 }
+
 //appmenu from data/addmenu
 const editMenu = async (req, res) => {
     try {
         const cek = cekLogin(req.session.loggedIn);
         await Promise.resolve(cek).then(result => {
             if (result == true) {
+              //request query dari url action from method dimulai setelah tanda tanya
                 var kd = req.query.kd;
                 var id = req.query.id;
                 var nama = req.body.editNama;

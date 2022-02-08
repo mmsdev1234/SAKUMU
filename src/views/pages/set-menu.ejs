@@ -33,14 +33,23 @@
                               }) %> 
                               <!-- panggil modal include dengan ketentuan meneruskan data dari controller berdasarkan id -->
                               <button type="button" class="btn btn-primary badge ms-2" data-bs-toggle="modal" data-bs-target="#mEditIn<%= inmenu[i].sub %>"><i class="bi bi-pencil-square"></i></button>                                               
+                              <!-- panggil modal edit menu dengan membawa data -->
                               <%- include('../modals/menu-edit', {
+                                //lempar data nama yang akan di show sebagai value default input form
                                   nama: inmenu[i].nama,
+                                //lempar data dess yang akan di show sebagai value default input form
                                   dess: inmenu[i].dess,
+                                //masukkan url action route + kode tabel dinamis(kd) dan id tabel dinamis(sub)
                                   edit: "/settings/editmenu?kd="+inmenu[i].kd+"&id="+inmenu[i].sub,
+                                //masukkan id modal dinamis dengan text 'In' sebagai penanda menu in dan + sub sebagai sub id tabel
                                   id: "In"+inmenu[i].sub,
+                                // kd 1 = penerimaan
                                   kd:1,
-                                  sub: inmenu[i].sub,                                                     
+                                // dari kolom sub tabel submenu sebagai nomor submenu
+                                  sub: inmenu[i].sub,
+                                // lempar data db siswa yang dimana jika value 1 memakai db siswa dan value 0 tidak pakai                                                     
                                   dbsiswa:inmenu[i].dbsiswa,
+                                  /* string yang akan di lempar ke modal menandai modal in atau out */
                                   menu: "In"
                               }) %>
                           </li>                         
@@ -167,4 +176,5 @@
         </div>
     </div>
 </div>
+<!-- mengarah ke js untuk mengecek switch db -->
 <script src="/ressources/js/switchDBsiswa.js"></script>

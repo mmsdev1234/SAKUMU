@@ -4,19 +4,22 @@ const db = require('./database').db
 const getLaporanNeraca = async function(callback) {
     
 }
-
+// fungsi yang akan di lempar di mainController.js
 const getLaporanLabarugi = async function(callback) {
-    var queIn = `SELECT a.sub, a.dess, sum(total) as total
+// query laporan in = pilih kolom submenu.sub dan submenu.dess lalu jumlahkan kolom total dari submenu sebagai a dan  penerimaan sebagai b
+// yang dimana kolom kd = 1 dan kolom sub(submenu) = kd(penerimaan) kemudian grup berdasarkan sub yang sama
+    var queIn = `SELECT a.sub, a.dess, sum(i.total) as total
                 FROM SUBMENU a, PENERIMAAN i
                 WHERE a.kd = 1 and a.sub = i.kd 
                 GROUP by a.sub`
-
-    var queOut = `SELECT a.sub, a.dess, sum(total) as total
+// query yang digunakan untuk mengelompokkan penerimaan dan pengeluaran yang di kelompokkan berdasarkan tabel sub(submenu)=kd(penerimaan/pengeluaran)
+    var queOut = `SELECT a.sub, a.dess, sum(i.total) as total
                 FROM SUBMENU a, PENGELUARAN i
                 WHERE a.kd = 2 and a.sub = i.kd 
                 GROUP by a.sub`
 
     try {
+        // masukkan var ke array kemudian inisialisasi query better sql
         const statement = [queIn,queOut].map(sql => db.prepare(sql).all());
         const getIn = statement[0];
         const getOut = statement[1];

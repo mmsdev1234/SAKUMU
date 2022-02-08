@@ -1,0 +1,268 @@
+------------------------------donut.js---------------------------------------
+// const dKas = {
+//   labels: [
+//     'Penerimaan',
+//     'Pengeluarana',
+//     // 'Yellow'
+//   ],
+//   datasets: [{
+//     label: 'My First Dataset',
+//     data: [100,200 ],
+//     backgroundColor: [
+//       'rgb(255, 99, 132)',
+//       'rgb(54, 162, 235)',
+//       // 'rgb(255, 205, 86)'
+//     ],
+//     hoverOffset: 4
+//   }]
+// };
+
+// const konfigurasi = {
+//   type: 'doughnut',
+//   data: {
+//     labels: [
+//       'Penerimaan',
+//       'Pengeluarana',
+//       // 'Yellow'
+//     ],
+//     datasets: [{
+//       label: 'My First Dataset',
+//       data: [100,200 ],
+//       backgroundColor: [
+//         'rgb(255, 99, 132)',
+//         'rgb(54, 162, 235)',
+//         // 'rgb(255, 205, 86)'
+//       ],
+//       hoverOffset: 4
+//     }]
+//   }
+// };
+// const datta = JSON.parse('[1, 5]');
+var ctx =  document.getElementById('donut')
+//render chart
+const dChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: [
+        'Penerimaan',
+        'Pengeluarana',
+        // 'Yellow'
+      ],
+      datasets: [{
+        label: 'My First Dataset',
+        data: [100, 100],
+        backgroundColor: [
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          // 'rgb(255, 205, 86)'
+        ],
+        hoverOffset: 4
+      }]
+    }
+  }
+);
+
+const updateChartValue = () =>{
+  // input.addEventListener('change', e=>{
+  //   dChart.data.datasets[0].data[dataOrder] = e.target.value;
+  //   dChart.update()
+// });
+  dChart.data.datasets[0].data = total_penerimaan;
+  dChart.data.datasets[0].data = total_pengeluaran;
+};
+
+// updateChartValue(masuk, 0);
+// updateChartValue(keluar, 1)
+--------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------cart.js----------------------------------------------------
+// // setting bulan
+// const labels = [
+//   'Saldo Kas Tunai',
+//   'Saldo Kas Bank Mitra Syariah',
+//   'Saldo Kas Bank Lain',
+// ];
+
+// const data = {
+//   labels: labels,
+//   datasets: [{
+//     axis: 'y',
+//     label: 'Jumlah Saldo',
+//     data: [7000000, 4000000, 2000000,],
+//     fill: false,
+//     backgroundColor: [
+//       'rgba(255, 99, 132, 0.2)',
+//       'rgba(255, 159, 64, 0.2)',
+//       'rgba(255, 205, 86, 0.2)',
+//       // 'rgba(75, 192, 192, 0.2)',
+//       // 'rgba(54, 162, 235, 0.2)',
+//       // 'rgba(153, 102, 255, 0.2)',
+//       // 'rgba(201, 203, 207, 0.2)'
+//     ],
+//     borderColor: [
+//       'rgb(255, 99, 132)',
+//       'rgb(255, 159, 64)',
+//       'rgb(255, 205, 86)',
+//       'rgb(75, 192, 192)',
+//       'rgb(54, 162, 235)',
+//       'rgb(153, 102, 255)',
+//       'rgb(201, 203, 207)'
+//     ],
+//     borderWidth: 1
+//   }]
+// };
+// const config = {
+//   type: 'bar',
+//   data,
+//   options: {
+//     indexAxis: 'y',
+//   }
+// };
+// //render chart
+// const myChart = new Chart(
+//   document.getElementById('myChart'),
+//   config
+// );
+
+function BuildChart(labels, values, chartTitle) {
+  var ctx = document.getElementById("myChart").getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels, // Our labels
+      datasets: [{
+        label: chartTitle, // Name the series
+        data: values, // Our values
+        backgroundColor: [ // Specify custom colors
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [ // Add custom color borders
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1 // Specify bar border width
+      }]
+    },
+    options: {
+      responsive: true, // Instruct chart js to respond nicely.
+      maintainAspectRatio: false, // Add to prevent default behavior of full-width/height 
+    }
+  });
+  return myChart;
+}
+
+// HTML To JSON Script 
+// *Forked* from https://johndyer.name/html-table-to-json/
+var table = document.getElementById('dataTable');
+var json = []; // first row needs to be headers 
+var headers = [];
+for (var i = 0; i < table.rows[0].cells.length; i++) {
+    headers[i] = table.rows[0].cells[i].innerHTML.toLowerCase().replace(/ /gi, '');
+}
+// go through cells 
+for (var i = 1; i < table.rows.length; i++) {
+    var tableRow = table.rows[i];
+    var rowData = {};
+    for (var j = 0; j < tableRow.cells.length; j++) {
+        rowData[headers[j]] = tableRow.cells[j].innerHTML;
+    }
+    json.push(rowData);
+}
+console.log(json);
+// Map json values back to label array
+var labels = json.map(function (e) {
+    return e.year;
+});
+console.log(labels);
+// Map json values back to values array
+var values = json.map(function (e) {
+    return e.itemssold;
+});
+console.log(values);
+var chart = BuildChart(labels, values, "Items Sold Over Time");
+---------------------------------------------------------------------------------------------------
+
+------------------------------------table html chart-----------------------------------------------
+    <table class="table" id="dataTable">
+      <thead>
+        <th>Year</th>
+        <th>Items Sold</th>
+        <th>Turnover ($)</th>
+        <th>Profit ($)</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2016</td>
+          <td><%= total_penerimaan%></td>
+          <td>200</td>
+          <td>89</td>
+        </tr>
+        <tr>
+          <td>2017</td>
+          <td><%= total_pengeluaran%></td>
+          <td>550</td>
+          <td>225</td>
+        </tr>
+        <tr>
+          <td>2018</td>
+          <td>55</td>
+          <td>1200</td>
+          <td>600</td>
+        </tr>
+        <tr>
+          <td>2019</td>
+          <td>120</td>
+          <td>2450</td>
+          <td>1100</td>
+        </tr>
+      </tbody>
+    </table>
+------------------------------------------------------------------------------------------------------------
+
+
+-----------------------------------------------donut dynamic------------------------------------------------
+function BuildChart(labels, values, chartTitle) {
+  var ctx = document.getElementById("donut").getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: [
+              'Penerimaan',
+              'Pengeluaran',
+        //       // 'Yellow'
+            ], // Our labels
+      datasets: [{
+        label: chartTitle, // Name the series
+        data: values, // Our values
+        backgroundColor: [ // Specify custom colors
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          // 'rgba(255, 206, 86, 0.2)',
+          // 'rgba(75, 192, 192, 0.2)',
+          // 'rgba(153, 102, 255, 0.2)',
+          // 'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [ // Add custom color borders
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1, // Specify bar border width
+        // hoverOffset: 3
+      }]
+    },
+  });
+  return myChart;
+}

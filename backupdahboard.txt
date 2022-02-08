@@ -1,0 +1,53 @@
+const getDashboard = async(req,res) => {
+  try {
+    const cek = cekLogin(req.session.loggedIn);
+    await Promise.resolve(cek).then(result =>{
+        if (result == true) {
+            appNeraca.getLaporanLabarugi(function(data) {
+                if (data.status === "ok") {
+                    const dataIn = data.data.filter(item => item.kategori === "penerimaan");
+                    var finalIn = [];
+                    let totalIn = 0;
+                    for (let i = 0; i < dataIn.length; i++) {
+                        finalIn.push({
+                            sub:dataIn[i].sub,
+                            dess:dataIn[i].dess,
+                            total: rupiah.convert(dataIn[i].total)
+                        })
+                        totalIn += dataIn[i].total
+                    }
+        
+                    const dataOut = data.data.filter(item => item.kategori === "pengeluaran");
+                    var finalOut =[];
+                    let totalOut = 0;
+                    for (let i = 0; i < dataOut.length; i++) {
+                        finalOut.push({
+                            sub:dataOut[i].sub,
+                            dess:dataOut[i].dess,
+                            total: rupiah.convert(dataOut[i].total)
+                        })
+                        totalOut += dataOut[i].total
+                    }
+                    getmenu(function(listmenu) {
+                        res.render('./pages/dashboard',{
+                            title: 'dashboard',
+                            page: 'dashboard',
+                            menu: 'dashboard',
+                            layout: 'main-layout',
+                            listmenu,
+                            penerimaan: finalIn,
+                            total_penerimaan: totalIn,
+                            pengeluaran: finalOut,
+                            total_pengeluaran: totalOut 
+                        })
+                    })
+                }
+            });
+        }else{
+            res.redirect('/logout');
+        }
+    }); 
+} catch (error) {
+    console.log(error);
+}  
+}
