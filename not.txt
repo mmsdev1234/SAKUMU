@@ -7,8 +7,12 @@
 6.input data excel into db -> sudah masuk -> tidak bisa redirect -> cek sudah ada siswa
   (opsi cek data siswa -> 1.buat nis = (primarykey) 2.ganti fungsi jadi looping 3.buat fungsi cek)
 7.donut chart(percentage)->layout(done)->dynamic data(done)
+  ------undone---------------
 8.bar horizontal chart for(sumber kas)->layout(done) ->dynamic data(done) ->dynamic label(undone) ->data minus(undone)
-9.delete kas -> delete value dalam tabel kas(undone) -> ubah value pada kolom kas=kas1 pada tabel pen&peng(undone)
+  jika data tidak ada error bagian tabel
+  ------undone---------------
+9.delete kas -> delete value dalam tabel kas(done)->update kas(done)
+10. gunakan db maleh error
 
 -- petan2
 1.alur menu (CRUD) ->getmenu(done)->addmenu(done)->edit(progress)->delete menu(done)-> modal edit switchdb(progress)

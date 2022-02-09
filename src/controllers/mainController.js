@@ -338,16 +338,41 @@ const postAddKas = async (req, res) => {
 }
 
 const postDelKas = async (req, res) => {
-    var id = req.query.id;
-    var nama = req.query.nama;
     const cek = cekLogin(req.session.loggedIn);
     await Promise.resolve(cek).then(result =>{
         if (result == true) { 
-
+            var id = req.query.id;
+            //data/kas.js
+            return appKas.delKas(id,function(data) {
+                if (data.status === 'ok') {
+                    res.redirect('/settings/kas');
+                }else if (data.status === 'no') {
+                    res.redirect('/settings/kas');
+                }
+            });
         }else{
             res.redirect('/logout');
         }
     });
+}
+
+const postEditKas = async (req, res) => {
+  const cek = cekLogin(req.session.loggedIn);
+  await Promise.resolve(cek).then(result =>{
+      if (result == true) { 
+        var id = req.query.id;
+        var nama = req.body.editNama;
+        return appKas.editKas(id, nama, function (data) {
+          if (data.status == "ok") {
+            res.redirect("/settings/kas")
+          }else if (data.status === 'no') {
+            res.redirect('/settings/kas');
+          }
+        })
+      }else{
+          res.redirect('/logout');
+      }
+  });
 }
 
 //----------------------------------------------------//
@@ -407,5 +432,6 @@ module.exports = {
     getArusKas,
     postAddKas,
     postDelKas,
-    getSync
+    getSync,
+    postEditKas
 }

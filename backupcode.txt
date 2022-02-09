@@ -266,3 +266,10 @@ function BuildChart(labels, values, chartTitle) {
   });
   return myChart;
 }
+
+
+--------------------------------------backup kasform dinamis----------------------------------------------
+<% for( let i = 0; i < kas.length; i++ ) { %>
+                        <option value="<%= kas[i].id %>"><%= kas[i].nama %></option>
+                        <% } %>
+----------------------------------------------------------------------------------------------------------

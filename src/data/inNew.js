@@ -4,10 +4,12 @@ const date = require('date-and-time');
 
 const addData = async function (callback) {
     const getKls = "SELECT *FROM KELAS"
+    const getKas = "SELECT *FROM KAS"
     try {
         const rows = db.prepare(getKls).all();
+        const krows = db.prepare(getKas).all();
         getSumberDana(function(data) {
-            return callback({status:"ok",sd:data,kls:rows});
+            return callback({status:"ok",sd:data,kls:rows,kas:krows});
         })
     } catch (error) {
         console.log(error);

@@ -49,7 +49,9 @@ const deleteMenu = async function(kd,id,callback) {
     const kd1 = "PENERIMAAN";
     const kd2 = "PENGELUARAN";
     let que1 = "DELETE FROM SUBMENU WHERE kd=@kd AND sub=@sub";
+    // what is this ?
     let que2 = "DELETE FROM "+eval('kd'+kd)+" WHERE kd=@sub";
+    console.log(que2);
 
     try {
         const statement = [que1,que2].map(sql => db.prepare(sql));

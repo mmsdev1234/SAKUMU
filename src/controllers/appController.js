@@ -371,6 +371,7 @@ const delMenu = async (req, res) => {
             if (result == true) {
                 var kd = req.query.kd;
                 var id = req.query.id;
+                //data/addmenu.js
                 return appMenu.deleteMenu(kd,id, function(data) {
                     if (data.status === 'ok') {
                         res.redirect('/settings/menu');

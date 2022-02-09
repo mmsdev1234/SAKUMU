@@ -219,6 +219,7 @@ const addNew = async (req,res) => {
                         layout: 'main-layout',
                         sub: no,
                         listmenu,
+                        kas:data.kas,
                         sd:data.sd                        
                     });                        
                 }else if (dbs == 1) {
@@ -231,6 +232,7 @@ const addNew = async (req,res) => {
                         sub: no,
                         listmenu,
                         sd:data.sd,
+                        kas:data.kas,
                         kelas:data.kls,
                         err: req.flash('err')
                     })

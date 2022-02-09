@@ -18,7 +18,7 @@
                 <div class="form-check form-switch mt-3">
                   <!--menu+sub = id(dbSiswaEditIn+sub) value(1)=pakai database -->
                   <!-- apakah ini di cek di js ? -->  
-                    <input type="hidden" id="dbSiswaEdit<%= menu+sub %>" name="dbSiswaEdit<%= menu+sub %>" value="<%= dbsiswa %>">                              
+                    <input type="text" id="dbSiswaEdit<%= menu+sub %>" name="dbSiswaEdit<%= menu+sub %>" value="<%= dbsiswa %>">                              
                     <input class="form-check-input" type="checkbox" role="switch" name="SwitchCheck<%= menu+sub %>" id="SwitchCheck<%= menu+sub %>" <% if(dbsiswa == 1){%>checked<%}%>>
                     <label class="form-check-label" for="SwitchCheck<%= sub %>">Gunakan database siswa</label>
                 </div>

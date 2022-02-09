@@ -30,6 +30,7 @@ router.post('/aktivasi', mainControll.postAktivasi);
 router.post('/login', mainControll.postLogin);
 router.post('/settings/addkas', mainControll.postAddKas);
 router.post('/settings/delkas', mainControll.postDelKas);
+router.post('/settings/editkas', mainControll.postEditKas);
 router.post('/settings/addmenu', appControll.addNewMenu);
 router.post('/settings/delmenu', appControll.delMenu);
 router.post('/settings/editmenu', appControll.editMenu);

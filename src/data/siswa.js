@@ -159,7 +159,7 @@ const delSelected = async function(nis,kelas, callback) {
 const editSiswa = async function(kd,nis,nama, callback) {
     let update = "UPDATE SISWA SET nama='"+nama+"' WHERE kelas='"+kd+"' and nis='"+nis+"'";
     try {
-        const pre = db.prepare(update);
+        const pre = db.prepare(update).run();
         const run = pre.run();
         if (run.changes > 0) {
             return callback({status: "ok", msg:"sukses"});

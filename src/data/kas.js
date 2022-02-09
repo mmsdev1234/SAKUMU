@@ -105,10 +105,50 @@ const addKas = async function(nama_kas,color, callback) {
     });
 }
 
+const delKas = async function (id,callback) {
+  const kd1 = "PENERIMAAN";
+  const kd2 = "PENGELUARAN";
+  let que1 = "DELETE FROM KAS WHERE id=@id";
+  // what is this ?
+  let que2 = `DELETE FROM ${kd1} WHERE kas=@id`;
+  let que3 = `DELETE FROM ${kd2} WHERE kas=@id`;
+  console.log(que2);
+
+  try {
+      const statement = [que1,que2, que3].map(sql => db.prepare(sql));
+      const transaction = db.transaction((data)=>{
+          for(const stmt of statement){
+              stmt.run(data);        
+          }
+      });
+      transaction({id:id});
+
+      callback({status:'ok', msg:'sukses'});
+      console.log('- Menu berhasil dihapus');
+  } catch (error) {
+      console.log(error);
+  }
+}
+
+const editKas = async function (id, nama, callback) {
+  let update = `UPDATE KAS SET nama= '${nama}' WHERE id= '${id}'`
+  console.log(update);
+  try {
+    const pre = db.prepare(update).run();
+    if (pre.changes > 0) {
+      return callback({status:"ok", msg:"sukses"})
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
     getSaldoKas,
     getSumberDana,
     addSumberDana,
     delSumberDana,
-    addKas
+    addKas,
+    delKas,
+    editKas
 }
