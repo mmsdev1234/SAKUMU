@@ -84,6 +84,7 @@ const getKas = async function(callback) {
     const query = "SELECT *FROM KAS"
     try {
         const exe = db.prepare(query).all();
+        console.log(exe);
         return callback(exe);
     } catch (error) {
         console.log();
@@ -108,11 +109,10 @@ const addKas = async function(nama_kas,color, callback) {
 const delKas = async function (id,callback) {
   const kd1 = "PENERIMAAN";
   const kd2 = "PENGELUARAN";
-  let que1 = "DELETE FROM KAS WHERE id=@id";
-  // what is this ?
-  let que2 = `DELETE FROM ${kd1} WHERE kas=@id`;
-  let que3 = `DELETE FROM ${kd2} WHERE kas=@id`;
-  console.log(que2);
+  let que1 = `DELETE FROM KAS WHERE id="${id}"`;
+  // hapus semua data penerimaan dan pengeluaran berdasarkan kas
+  let que2 = `DELETE FROM ${kd1} WHERE kas="${id}" AND EXISTS(SELECT *FROM ${kd1} WHERE Kas="${id}" LIMIT 1)`;
+  let que3 = `DELETE FROM ${kd2} WHERE kas="${id}" AND EXISTS(SELECT *FROM ${kd2} WHERE Kas="${id}" LIMIT 1)`;
 
   try {
       const statement = [que1,que2, que3].map(sql => db.prepare(sql));
@@ -128,6 +128,7 @@ const delKas = async function (id,callback) {
   } catch (error) {
       console.log(error);
   }
+ 
 }
 
 const editKas = async function (id, nama, callback) {
