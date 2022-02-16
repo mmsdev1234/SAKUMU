@@ -16,7 +16,6 @@ router.get('/profile', mainControll.getProfile);
 router.get('/kas',mainControll.getKas);
 // get kas bank
 router.get('/aruskas', mainControll.getArusKas);
-// ------------- //
 router.get('/logout', mainControll.getLogout);
 router.get('/settings', appControll.getSetting);
 router.get('/settings/akun', appControll.getSetAkun);
@@ -48,7 +47,6 @@ router.post('/settings/editsiswa', appControll.editSelectedSiswa);
 //------------------------------------------------------------------//
 //multer setting
 //setting upload
-
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 	   cb(null,'uploads')

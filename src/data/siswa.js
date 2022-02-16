@@ -43,8 +43,12 @@ const editKelas = async function(kd, callback) {
         if (row) {
             //return callback(row);
             let getSiswa = "SELECT *FROM SISWA WHERE kelas='"+kd+"' Order by nama";
+            let jumlahSiswa = `SELECT count(nis)
+            FROM siswa
+            WHERE kelas='${kd}'`
             const siswas = db.prepare(getSiswa).all();
-            return callback({kelas:row, siswa:siswas});
+            const jumlah = db.prepare(jumlahSiswa).all();
+            return callback({kelas:row, siswa:siswas, count:jumlah});
         }
     } catch (error) {
         console.log(error);

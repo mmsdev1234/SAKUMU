@@ -1,0 +1,5 @@
+# input excel to database-> 1.cannot redirect()->2.cannot check if data exist(opsi ubah kolom database jadi primary key dan kasih)
+# arus kas -> 1.sorting tanggal( opsi SELECT * FROM PENERIMAAN WHERE timestamp >= 20220212000000 AND timestamp <= 20220213000000) -> 2.sorting date range()
+# aktivasi
+# pada jumlah siswa tidak bisa berubah saat dihapus
+# jumlah siswa tidak berubah saat diinput dari excel (opsi dihilangkan karena sudah ada nomor list)
