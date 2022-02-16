@@ -3,17 +3,11 @@ function BuildChart(labels, values, chartTitle) {
   var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: [
-            'Saldo Kas Tunai',
-            'Saldo Kas Bank Mitra Syariah',
-            'Saldo Kas Bank Lain',
-            'Saldo Kas Bank BRI',
-            'Saldo Kas Bank BNI',
-            'Saldo Kas Bank Muammalat'
-            ], // Our labels
+      labels: labels,
       datasets: [{
         label: 'Sumber Kas', // Name the series
-        data: [-7000,1000,10000,-4000,-5000,1000], // Our values
+        data: values,
+        // [-7000,1000,10000,-4000,-5000,1000], // Our values
         backgroundColor: [ // Specify custom colors
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',

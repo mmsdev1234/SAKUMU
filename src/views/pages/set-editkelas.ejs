@@ -68,13 +68,13 @@
 
                     <h6 class="mt-3"><i class="bi bi-stickies px-0 me-2"></i>Upload Template</h6>
                     <div class="card mt-2 p-3">
-                        <form method="post" action="/settings/editkelas/upload" enctype="multipart/form-data">
+                        <form action="/settings/editkelas/upload" enctype="multipart/form-data" method="post">
                             <div class="row">
                                 <div class="text-end me-3 col-sm">
-                                    <input type="file" class="form-control form-control-sm" name="formFileTemplate" id="formFileTemplate" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
+                                    <input type="file" class="form-control form-control-sm" name="formFileTemplate" id="formFileTemplate"  required>
                                 </div>
                                 <div class="text-end col-sm-auto">
-                                    <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-upload me-2"></i>Upload</button>
+                                    <button type="submit" class="btn btn-sm btn-primary" value="formFileTemplate"><i class="bi bi-upload me-2"></i>Upload</button>
                                 </div>
                             </div>
                         </form>

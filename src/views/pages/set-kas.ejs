@@ -22,24 +22,24 @@
                                 </div>
                             </li>
                             <% for( let i = 0; i < kas.length; i++ ) { %>
-                                <li class="list-group-item d-flex justify-content-between align-items-start">
-                                    <span class="dot <%= kas[i].color %> me-2 my-auto"></span>
-                                    <div class="me-auto">
-                                        <h6 class="fw-normal m-0 p-0"><%= kas[i].nama %></h6>                                                           
-                                    </div>
-                                    <button type="button" class="btn btn-info badge" data-bs-toggle="modal" data-bs-target="#mEditKas<%= kas[i].id %>"><i class="bi bi-pencil-square"></i></button>
-                                    <%- include('../modals/kas-edit', {
+                              <li class="list-group-item d-flex justify-content-between align-items-start">
+                                  <span class="dot <%= kas[i].color %> me-2 my-auto"></span>
+                                  <div class="me-auto">
+                                      <h6 class="fw-normal m-0 p-0"><%= kas[i].nama %></h6>                                                           
+                                  </div>
+                                  <button type="button" class="btn btn-info badge" data-bs-toggle="modal" data-bs-target="#mEditKas<%= kas[i].id %>"><i class="bi bi-pencil-square"></i></button>
+                                  <%- include('../modals/kas-edit', {
+                                    id: kas[i].id,
+                                    nama: kas[i].nama
+                                   }) %>
+                                  <button type="button" class="btn btn-danger badge ms-2" data-bs-toggle="modal" data-bs-target="#mHapusKas<%= kas[i].id %>"><i class="bi bi-trash"></i></button>
+                                  <%- include('../modals/kas-delete', {
                                       id: kas[i].id,
-                                      nama: kas[i].nama
+                                      nama: kas[i].nama,
+                                      del: "/settings/delkas?id="+kas[i].id+"&nama="+kas[i].nama
                                   }) %>
-                                    <button type="button" class="btn btn-danger badge ms-2" data-bs-toggle="modal" data-bs-target="#mHapusKas<%= kas[i].id %>"><i class="bi bi-trash"></i></button>
-                                    <%- include('../modals/kas-delete', {
-                                        id: kas[i].id,
-                                        nama: kas[i].nama,
-                                        del: "/settings/delkas?id="+kas[i].id+"&nama="+kas[i].nama
-                                    }) %>
-                                </li>
-                            <% } %>
+                              </li>
+                          <% } %>
                         </ul>
                     </div>
                     <div class="col-sm col-set">

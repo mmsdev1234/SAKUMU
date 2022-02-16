@@ -14,23 +14,23 @@ router.get('/login', mainControll.getLogin);
 router.get('/dashboard', mainControll.getDashboard);
 router.get('/profile', mainControll.getProfile);
 router.get('/kas',mainControll.getKas);
+// get kas bank
 router.get('/aruskas', mainControll.getArusKas);
+// ------------- //
 router.get('/logout', mainControll.getLogout);
 router.get('/settings', appControll.getSetting);
 router.get('/settings/akun', appControll.getSetAkun);
 router.get('/settings/kas', appControll.getSetKas);
-//halaman setting menu
 router.get('/settings/menu', appControll.getSetMenu);
-//halaman pengaturan setting siswa
 router.get('/settings/siswa', appControll.getSetSiswa);
 router.get('/app/sync', mainControll.getSync);
 
 //POST
 router.post('/aktivasi', mainControll.postAktivasi);
 router.post('/login', mainControll.postLogin);
-router.post('/settings/addkas', mainControll.postAddKas);
-router.post('/settings/delkas', mainControll.postDelKas);
-router.post('/settings/editkas', mainControll.postEditKas);
+router.post('/settings/addkas', appControll.postAddKas);
+router.post('/settings/delkas', appControll.postDelKas);
+router.post('/settings/editkas', appControll.postEditKas);
 router.post('/settings/addmenu', appControll.addNewMenu);
 router.post('/settings/delmenu', appControll.delMenu);
 router.post('/settings/editmenu', appControll.editMenu);
@@ -48,6 +48,7 @@ router.post('/settings/editsiswa', appControll.editSelectedSiswa);
 //------------------------------------------------------------------//
 //multer setting
 //setting upload
+
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 	   cb(null,'uploads')

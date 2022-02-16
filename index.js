@@ -9,6 +9,7 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
+const multer = require('multer');
 
 const appRoutes = require('./src/routes/appRoutes');
 const inRoutes = require('./src/routes/inRoutes');
@@ -51,7 +52,7 @@ app.use("/ressources", express.static(path.join(__dirname + "/src/assets/ressour
 app.use("/filepath", express.static(path.join(__dirname + "/upload")));
 
 //server
-app.listen(8080, ()=>{
+app.listen(8000, ()=>{
     console.log("");
     console.log(" =====================================");
     console.log("                (SAKUMU)              ");
@@ -61,7 +62,7 @@ app.listen(8080, ()=>{
     console.log(" Powered by :");
     console.log(" PT BPRS Mitra Mentari Sejahtera");
     console.log("");
-    console.log(" url : http://localhost:8080");
+    console.log(" url : http://localhost:8000");
     console.log("");
     console.log(" app version 1.0");
     console.log(" _________________________________");
@@ -73,7 +74,7 @@ app.listen(8080, ()=>{
 
 
 async function openlink() {
-    await open('http://localhost:8080', {app: {name: 'chrome'}});
+    await open('http://localhost:8000', {app: {name: 'chrome'}});
 }
 module.exports = {
     app

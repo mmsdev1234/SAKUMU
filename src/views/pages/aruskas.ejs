@@ -5,10 +5,10 @@
                 <div class="col-sm">  
                     <h6>Kas</h6>                  
                     <select class="form-select form-select-sm" name="inpKas" id="inpKas" required>
-                        <option value="0">Pilih Kas</option>                          
-                        <option value="kas1">Kas tunai</option>        
-                        <option value="kas2">Kas Bank Mitra Syariah</option>        
-                        <option value="kas3">Kas Bank Lain</option>
+                        <option value="0">Pilih Kas</option>   
+                        <% for (let i = 0; i < dkas.length; i++) { %>
+                            <option value="<%= dkas[i].idkas %>"><%= dkas[i].nkas %></option>        
+                          <% } %> 
                     </select>
                 </div>
                 <div class="col-sm">
@@ -93,8 +93,8 @@
         <table class="table table-sm  table-bordered table-striped mt-3">
             <thead>
                 <tr>
-                  <th class="text-center" scope="col" style="width: 70%;">Kas</th>
-                  <th class="text-center" scope="col" style="width: 30%;"><%= total_pengeluaran %><</th>
+                  <th class="text-center" scope="col" style="width: 70%;">Total Kas</th>
+                  <th class="text-center" scope="col" style="width: 30%;">Kas</th>
                 </tr>
             </thead>
         </table>

@@ -44,27 +44,38 @@ const get = async (req,res) => {
                 total: data.rows[i].total,
                 totalrp: rupiah.convert(data.rows[i].total),
                 sumber: data.rows[i].sumber,
-                kas: data.rows[i].kas                
+                kas: data.rows[i].kas,
+                colors:data.rows[i].color                
             });
         }
-
-        getmenu(function(listmenu) {
-            const getsub = listmenu.in.filter(item => item.sub === parseInt(no));
-            const dbs = getsub[0].dbsiswa;
-            res.render('./pages/penerimaan',{
-                title: getsub[0].nama,
-                dess: getsub[0].dess,
-                page: '1'+no,
-                menu: 'penerimaan',
-                layout: 'main-layout',
-                sub: no,
-                data: listdata,
-                listmenu,
-                dbs,
-                filter: data.filter,
-                msg: req.flash('msg')
+        inData.getBank(function (kdata) {
+          let listkas = [];
+            for (let i = 0; i < kdata.qrows.length; i++) {
+              listkas.push({
+                idkas: kdata.qrows[i].id,
+                nkas: kdata.qrows[i].nama,
+                ckas: kdata.qrows[i].color
+              });        
+            }
+            getmenu(function(listmenu) {
+                const getsub = listmenu.in.filter(item => item.sub === parseInt(no));
+                const dbs = getsub[0].dbsiswa;
+                res.render('./pages/penerimaan',{
+                    title: getsub[0].nama,
+                    dess: getsub[0].dess,
+                    page: '1'+no,
+                    menu: 'penerimaan',
+                    layout: 'main-layout',
+                    sub: no,
+                    data: listdata,
+                    dkas: listkas,
+                    listmenu,
+                    dbs,
+                    filter: data.filter,
+                    msg: req.flash('msg')
+                });
             });
-        });
+        })
     });
 }
 //get semua data penerimaan
@@ -91,30 +102,55 @@ const getAll = async (req, res) => {
                 total: data.rows[i].total,
                 totalrp: rupiah.convert(data.rows[i].total),
                 sumber: data.rows[i].sumber,
-                kas: data.rows[i].kas                
+                kas: data.rows[i].kas,
+                colors:data.rows[i].color,                
+                nama :data.rows[i].nama                
             });
         }
-
-        getmenu(function(listmenu) {
-            const getsub = listmenu.in.filter(item => item.sub === parseInt(no));
-            const dbs = getsub[0].dbsiswa;
-            res.render('./pages/penerimaan',{
-                title: getsub[0].nama,
-                dess: getsub[0].dess,
-                page: '1'+no,
-                menu: 'penerimaan',
-                layout: 'main-layout',
-                sub: no,
-                data: listdata,
-                listmenu,
-                dbs,
-                filter: data.filter,
-                msg: req.flash('msg')
-            });
-        });
-
+        inData.getBank(function (kdata) {
+          let listkas = [];
+            for (let i = 0; i < kdata.qrows.length; i++) {
+              listkas.push({
+                idkas: kdata.qrows[i].id,
+                nkas: kdata.qrows[i].nama,
+                ckas: kdata.qrows[i].color
+              });        
+            }
+            console.log(listkas);
+            getmenu(function(listmenu) {
+              const getsub = listmenu.in.filter(item => item.sub === parseInt(no));
+              const dbs = getsub[0].dbsiswa;
+              res.render('./pages/penerimaan',{
+                  title: getsub[0].nama,
+                  dess: getsub[0].dess,
+                  page: '1'+no,
+                  menu: 'penerimaan',
+                  layout: 'main-layout',
+                  sub: no,
+                  data: listdata,
+                  dkas: listkas,
+                  listmenu,
+                  dbs,
+                  filter: data.filter,
+                  msg: req.flash('msg')
+              });
+          });
+        })
     });
 }
+
+// const getBank = async (req, res) => {
+//   await inData.getBank(function (kdata) {
+//     let listkas = [];
+//       for (let i = 0; i < kdata.length; i++) {
+//         listkas.push({
+//           idkas: kdata.qrows[i].id,
+//           nkas: kdata.qrows[i].nama,
+//           ckas: kdata.qrows[i].color
+//         });        
+//       }
+//   })
+// }
 //get tunggakan from inData(tunggakan) -> /pages/tunggakan-siswa
 const getTunggakan = async (req, res) => {
     try {
@@ -218,8 +254,8 @@ const addNew = async (req,res) => {
                         menu: 'penerimaan',
                         layout: 'main-layout',
                         sub: no,
-                        listmenu,
                         kas:data.kas,
+                        listmenu,
                         sd:data.sd                        
                     });                        
                 }else if (dbs == 1) {
@@ -231,8 +267,8 @@ const addNew = async (req,res) => {
                         layout: 'main-layout',
                         sub: no,
                         listmenu,
-                        sd:data.sd,
                         kas:data.kas,
+                        sd:data.sd,
                         kelas:data.kls,
                         err: req.flash('err')
                     })
@@ -269,20 +305,32 @@ const edit = async (req,res) => {
     const no = req.params.no
     const id = req.query.id
     const result = await inData.getEdit(no,id,function(data) {
-        getmenu(function(listmenu) {
-            const getsub = listmenu.in.filter(item => item.sub === parseInt(no));
-            res.render('./pages/in-edit',{
-                title : 'Edit',
-                subtitle: getsub[0].dess,
-                page: '1'+no,
-                menu: 'penerimaan',
-                layout: 'main-layout',
-                sub: no,
-                data: data.field,
-                listmenu,
-                sd:data.sd
-            });
-        })
+
+        inData.getBank(function (kdata) {
+            let listkas = [];
+              for (let i = 0; i < kdata.qrows.length; i++) {
+                listkas.push({
+                  idkas: kdata.qrows[i].id,
+                  nkas: kdata.qrows[i].nama,
+                  ckas: kdata.qrows[i].color
+                });        
+              }
+              getmenu(function(listmenu) {
+                  const getsub = listmenu.in.filter(item => item.sub === parseInt(no));
+                  res.render('./pages/in-edit',{
+                      title : 'Edit',
+                      subtitle: getsub[0].dess,
+                      page: '1'+no,
+                      menu: 'penerimaan',
+                      layout: 'main-layout',
+                      sub: no,
+                      data: data.field,
+                      dkas: listkas,
+                      listmenu,
+                      sd:data.sd
+                  });
+              })
+        });
     });
     return result;
 }
@@ -353,5 +401,7 @@ module.exports = {
     addNew,
     edit,
     update,
-    getDelete
+    getDelete,
+    cekLogin,
+    // getBank
 }

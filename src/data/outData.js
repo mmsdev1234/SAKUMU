@@ -14,14 +14,17 @@ const getData = async function(no,getdate, callback) {
         const now = new Date();
         setDate = date.format(now, 'YYYYMMDD');
     }
-    let query = "SELECT *FROM PENGELUARAN WHERE kd="+no+" AND timestamp like '"+setDate+"%'";
+    // let query = "SELECT *FROM PENGELUARAN WHERE kd="+no+" AND timestamp like '"+setDate+"%'";
+    let qkas = `SELECT * FROM KAS`;
+    let query = `SELECT kd,no,timestamp,uraian,satuan,jumlah,total,sumber,kas,color,nama FROM PENGELUARAN INNER JOIN KAS ON kas = id WHERE kd=${no} AND timestamp like '${setDate}%'`;
     try {
+        const qrows = db.prepare(qkas).all();
         const rows = db.prepare(query).all();
         const getTahun = setDate.substring(0,4);
         const getBulan = setDate.substring(4,6);
         const getHari = setDate.substring(6,8);
         const dateValue = getTahun+"-"+getBulan+"-"+getHari;
-        callback({rows,filter: dateValue});
+        callback({qrows,rows,filter: dateValue});
     } catch (error) {
         console.log(error);
     }
@@ -31,18 +34,31 @@ const getAllData = async function(no, callback) {
     const now = new Date();
     const setDate = date.format(now, 'YYYYMMDD');
 
-    let query = "SELECT *FROM PENGELUARAN WHERE kd="+no;
+    // let query = "SELECT *FROM PENGELUARAN WHERE kd="+no;
+    let qkas = `SELECT * FROM KAS`;
+    let query = `SELECT kd,no,timestamp,uraian,satuan,jumlah,total,sumber,kas,color,nama FROM PENGELUARAN INNER JOIN KAS ON kas = id WHERE kd='${no}'`;
     try {
+        const qrows = db.prepare(qkas).all();
         const rows = db.prepare(query).all();
         const getTahun = setDate.substring(0,4);
         const getBulan = setDate.substring(4,6);
         const getHari = setDate.substring(6,8);
         const dateValue = getTahun+"-"+getBulan+"-"+getHari;
-        return callback({rows,filter: dateValue});
+        return callback({qrows,rows,filter: dateValue});
     } catch (error) {
         console.log(error);
     }
 }
+
+const getBank = async function(callback) {
+    let qkas = `SELECT * FROM KAS`;
+    try {
+      const qrows = db.prepare(qkas).all();
+      return callback({qrows})
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
 const tunggakan = async function(no,month, callback) {
     let filter_month = ""
@@ -86,7 +102,8 @@ const tunggakan = async function(no,month, callback) {
 }
 
 const getEdit = async function(no,id,callback) {
-    let query = "SELECT *FROM PENGELUARAN WHERE kd="+no+" AND timestamp="+id;
+    // let query = "SELECT *FROM PENGELUARAN WHERE kd="+no+" AND timestamp="+id;
+    let query = `SELECT kd,no,timestamp,uraian,satuan,jumlah,total,id,kas,color,nama FROM PENGELUARAN INNER JOIN KAS ON kas = id WHERE kd=${no} AND timestamp=${id}`;
     try {
         const row = db.prepare(query).get();
         callback(row)
@@ -110,5 +127,6 @@ module.exports = {
     getAllData,
     tunggakan,
     getEdit,
-    searchFilter
+    searchFilter,
+    getBank
 }

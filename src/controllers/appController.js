@@ -83,15 +83,10 @@ const getSetMenu = async (req, res) => {
             if (result == true) {
                 // getmenu memiliki parameter fungsi yang berasal dari parameter allmenu pada fungsi callback
                 getmenu(function(listmenu) {
-                  //render ke /pages/set-menu
                     res.render('./pages/set-menu', {
-                      //masukkan title tab dinamis ke layout
                         title: 'Pengaturan Menu',
-                        //page di render di sidebar
                         page: 'setting',
-                        //page di render di sidebar
                         menu: 'menu',
-                        //menggunakan layout setting
                         layout: 'settings-layout',
                         // listmenu in dan out berdasarkan pada json dari fungsi getmenu bawah
                         inmenu: listmenu.in,
@@ -135,29 +130,19 @@ const getEditKelas = async (req, res) => {
     }    
 }
 
-//appSiswa.getkelas->data/siswa(fungsi get kelas)
 const getSetSiswa = async (req, res) => {
     try {
         const cek = cekLogin(req.session.loggedIn);
         await Promise.resolve(cek).then(result => {
             if (result == true) {
-                // return fungsi getKelas dari data/siswa.js dengan parameter fungsi yang mempunyai parameter data
                 return appSiswa.getKelas(function(data) {
-                  //panggil fungsi getmenu
                     getmenu(function(listmenu) {
-                      //render ke halaman
                         res.render('./pages/set-siswa', {
-                          //masukkan title dinamis di lempar ke layout
                             title: 'Pengaturan Data Siswa',
-                            //page dirender di sidebar
                             page: 'setting',
-                            //menu di render di sidebar
                             menu: 'siswa',
-                            //layout yang digunakan
                             layout: 'settings-layout',
-                            //listmenu dirender di sidebar
                             listmenu,
-                            //data di render di set-siswa
                             data
                         });
                     });
@@ -371,7 +356,6 @@ const delMenu = async (req, res) => {
             if (result == true) {
                 var kd = req.query.kd;
                 var id = req.query.id;
-                //data/addmenu.js
                 return appMenu.deleteMenu(kd,id, function(data) {
                     if (data.status === 'ok') {
                         res.redirect('/settings/menu');
@@ -394,7 +378,6 @@ const editMenu = async (req, res) => {
         const cek = cekLogin(req.session.loggedIn);
         await Promise.resolve(cek).then(result => {
             if (result == true) {
-              //request query dari url action from method dimulai setelah tanda tanya
                 var kd = req.query.kd;
                 var id = req.query.id;
                 var nama = req.body.editNama;
@@ -489,6 +472,11 @@ const getListSiswa = async (req, res) => {
         console.log(error);
     }
 }
+
+// setting multer
+
+
+
 //upload template excel
 const uploadTemplate = async function(req, res, next){
   // try {
@@ -504,8 +492,8 @@ const uploadTemplate = async function(req, res, next){
         };
         data_Template.push(tutorial);
       });
-      console.log(data_Template);
-      return appSiswa.addTemplate(data_Template, function(data) {
+      // console.log(data_Template);
+     return appSiswa.addTemplate(data_Template, function(data) {
         if (data.status === "ok") {
           res.redirect("/settings/editkelas?kd="+kd);
         }else{
@@ -516,8 +504,12 @@ const uploadTemplate = async function(req, res, next){
   // } catch (error) {
   //   console.log(error);
   // }
-      next()
+  next()
 }
+
+
+// END
+
 
 //CHECK LOGIN
 async function cekLogin(status) {
@@ -553,6 +545,60 @@ async function getmenu(callback) {
         console.log();
     }    
 }
+const postAddKas = async (req, res) => {
+  var nama_kas = req.body.inpKas;
+  var color = req.body.inpColor
+  const cek = cekLogin(req.session.loggedIn);
+  await Promise.resolve(cek).then(result =>{
+      if (result == true) { 
+          appKas.addKas(nama_kas,color, function(data) {
+              if (data.status === "ok") {
+                  res.redirect('/settings/kas');
+              }
+          });
+      }else{
+          res.redirect('/logout');
+      }
+  });
+}
+
+const postDelKas = async (req, res) => {
+  const cek = cekLogin(req.session.loggedIn);
+  await Promise.resolve(cek).then(result =>{
+      if (result == true) { 
+          var id = req.query.id;
+          //data/kas.js
+          return appKas.delKas(id,function(data) {
+              if (data.status === 'ok') {
+                  res.redirect('/settings/kas');
+              }else if (data.status === 'no') {
+                  res.redirect('/settings/kas');
+              }
+          });
+      }else{
+          res.redirect('/logout');
+      }
+  });
+}
+
+const postEditKas = async (req, res) => {
+const cek = cekLogin(req.session.loggedIn);
+await Promise.resolve(cek).then(result =>{
+    if (result == true) { 
+      var id = req.query.id;
+      var nama = req.body.editNama;
+      return appKas.editKas(id, nama, function (data) {
+        if (data.status == "ok") {
+          res.redirect("/settings/kas")
+        }else if (data.status === 'no') {
+          res.redirect('/settings/kas');
+        }
+      })
+    }else{
+        res.redirect('/logout');
+    }
+});
+}
 
 module.exports = {
     getSetting,
@@ -560,6 +606,9 @@ module.exports = {
     getSetKas,
     getSetMenu,
     getSetSiswa,
+    postAddKas,
+    postDelKas,
+    postEditKas,
     addNewKelas,
     getEditKelas,
     postEditKelas,

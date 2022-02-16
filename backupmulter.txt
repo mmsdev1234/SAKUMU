@@ -1,0 +1,28 @@
+const uploadTemplate = async function(req, res, next){
+  // try {
+    var kd = req.query.kd;
+    readXlsxFile('uploads/formFileTemplate.xlsx').then((rows) => {
+      rows.shift();
+      let data_Template = [];
+      rows.map(row => {
+        const tutorial = {
+          Nis: row[0],
+          Nama: row[1],
+          Kelas: row[2],
+        };
+        data_Template.push(tutorial);
+      });
+      // console.log(data_Template);
+     return appSiswa.addTemplate(data_Template, function(data) {
+        if (data.status === "ok") {
+          res.redirect("/settings/editkelas?kd="+kd);
+        }else{
+          res.redirect("/settings/editkelas?kd="+kd);
+      }
+      })
+    })
+  // } catch (error) {
+  //   console.log(error);
+  // }
+      next()
+}

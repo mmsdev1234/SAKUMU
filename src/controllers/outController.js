@@ -60,28 +60,40 @@ const get = async (req,res) => {
                 total: data.rows[i].total,
                 totalrp: rupiah.convert(data.rows[i].total),
                 sumber: data.rows[i].sumber,
-                kas: data.rows[i].kas
+                kas: data.rows[i].kas,
+                colors: data.rows[i].color,
+                nama: data.rows[i].nama
             })
         }
-        
-        getmenu(function(listmenu) {
-            const getsub = listmenu.out.filter(item => item.sub === parseInt(no));
-            const dbs = getsub[0].dbsiswa;
-            res.render('./pages/pengeluaran',{
-                title: getsub[0].nama,
-                dess: getsub[0].dess,
-                page: '2'+no,
-                menu: 'pengeluaran',
-                layout: 'main-layout',
-                sub: no,
-                data: listdata,
-                listmenu,
-                dbs,
-                filter: data.filter,
-                msg: req.flash('msg')
-            });
-        })
 
+        outData.getBank(function (kdata) {
+            let listkas = [];
+              for (let i = 0; i < kdata.qrows.length; i++) {
+                listkas.push({
+                  idkas: kdata.qrows[i].id,
+                  nkas: kdata.qrows[i].nama,
+                  ckas: kdata.qrows[i].color
+                });        
+              }
+              getmenu(function(listmenu) {
+                  const getsub = listmenu.out.filter(item => item.sub === parseInt(no));
+                  const dbs = getsub[0].dbsiswa;
+                  res.render('./pages/pengeluaran',{
+                      title: getsub[0].nama,
+                      dess: getsub[0].dess,
+                      page: '2'+no,
+                      menu: 'pengeluaran',
+                      layout: 'main-layout',
+                      sub: no,
+                      data: listdata,
+                      dkas: listkas,
+                      listmenu,
+                      dbs,
+                      filter: data.filter,
+                      msg: req.flash('msg')
+                  });
+              })
+        });
     });
     return result
 }
@@ -109,28 +121,40 @@ const getAll = async (req, res) => {
                 total: data.rows[i].total,
                 totalrp: rupiah.convert(data.rows[i].total),
                 sumber: data.rows[i].sumber,
-                kas: data.rows[i].kas
+                kas: data.rows[i].kas,
+                colors: data.rows[i].color,
+                nama: data.rows[i].nama
             })
         }
-        
-        getmenu(function(listmenu) {
-            const getsub = listmenu.out.filter(item => item.sub === parseInt(no));
-            const dbs = getsub[0].dbsiswa;
-            res.render('./pages/pengeluaran',{
-                title: getsub[0].nama,
-                dess: getsub[0].dess,
-                page: '2'+no,
-                menu: 'pengeluaran',
-                layout: 'main-layout',
-                sub: no,
-                data: listdata,
-                listmenu,
-                dbs,
-                filter: data.filter,
-                msg: req.flash('msg')
-            });
-        })
 
+        outData.getBank(function (kdata) {
+            let listkas = [];
+              for (let i = 0; i < kdata.qrows.length; i++) {
+                listkas.push({
+                  idkas: kdata.qrows[i].id,
+                  nkas: kdata.qrows[i].nama,
+                  ckas: kdata.qrows[i].color
+                });        
+              }
+              getmenu(function(listmenu) {
+                  const getsub = listmenu.out.filter(item => item.sub === parseInt(no));
+                  const dbs = getsub[0].dbsiswa;
+                  res.render('./pages/pengeluaran',{
+                      title: getsub[0].nama,
+                      dess: getsub[0].dess,
+                      page: '2'+no,
+                      menu: 'pengeluaran',
+                      layout: 'main-layout',
+                      sub: no,
+                      data: listdata,
+                      dkas: listkas,
+                      listmenu,
+                      dbs,
+                      filter: data.filter,
+                      msg: req.flash('msg')
+                  });
+              })
+        });
     });
     return result
 }
@@ -235,6 +259,7 @@ const addNew = async (req, res) => {
                         layout: 'main-layout',
                         sub: no,
                         listmenu,
+                        kas:data.kas,
                         sd:data.sd
                     });
                 }else if (dbs == 1) {
@@ -246,6 +271,7 @@ const addNew = async (req, res) => {
                         layout: 'main-layout',
                         sub: no,
                         listmenu,
+                        kas:data.kas,
                         sd:data.sd,
                         kelas:data.kls,
                         err: req.flash('err')
@@ -282,19 +308,30 @@ const edit = async (req,res) => {
     const no = req.params.no
     const id = req.query.id
     const result = await outData.getEdit(no,id,function(data) {
-        getmenu(function(listmenu) {
-            const getsub = listmenu.out.filter(item => item.sub === parseInt(no));
-            res.render('./pages/out-edit',{
-                title : 'Edit',
-                subtitle: getsub[0].dess,
-                page: '1'+no,
-                menu: 'pengeluaran',
-                layout: 'main-layout',
-                sub: no,
-                data,
-                listmenu
-            });
-        })
+        outData.getBank(function (kdata) {
+            let listkas = [];
+              for (let i = 0; i < kdata.qrows.length; i++) {
+                listkas.push({
+                  idkas: kdata.qrows[i].id,
+                  nkas: kdata.qrows[i].nama,
+                  ckas: kdata.qrows[i].color
+                });        
+              }
+              getmenu(function(listmenu) {
+                  const getsub = listmenu.out.filter(item => item.sub === parseInt(no));
+                  res.render('./pages/out-edit',{
+                      title : 'Edit',
+                      subtitle: getsub[0].dess,
+                      page: '1'+no,
+                      menu: 'pengeluaran',
+                      layout: 'main-layout',
+                      sub: no,
+                      data,
+                      dkas: listkas,
+                      listmenu
+                  });
+              })
+        });
     });
     return result;
 }

@@ -1,8 +1,10 @@
 <div class="container-fluid">
+  <link rel="stylesheet" href="/ressources/css/donut.css">
+  <link rel="stylesheet" href="/ressources/css/cart.css">
     <h2>Dashboard</h2>
     <hr>
 
-    
+    <!-- tabel chart donut -->
     <table class="table" id="dataTable" style="display:none">
       <thead>
         <th>Items Sold</th>
@@ -16,26 +18,23 @@
         </tr>
       </tbody>
     </table>
-    <% const kas1 = kas.filter(item => item.id === 'kas1' ) %>
-    <% const kas2 = kas.filter(item => item.id === 'kas2' ) %>
-    <% const kas3 = kas.filter(item => item.id === 'kas3' ) %>
+
+    <!-- tabel chart chart -->
     <table class="table" id="dataTable1" style="display:none">
       <thead>
+        <th>year</th>
         <th>Items Sold</th>
       </thead>
       <tbody>
-        <tr>
-          <td><%= kas1[0].total %></td>
-        </tr>
-        <tr>
-          <td><%= kas2[0].total %></td>
-        </tr>
-        <tr>
-          <td></td>
-        </tr>
+        <% for( let i = 0; i < kas.length; i++ ) { %>
+          <tr>
+            <td><%= kas[i].nama%></td>
+            <td><%= kas[i].total%></td>
+          </tr>
+          <% } %>
       </tbody>
     </table>
-
+    
     <div class="row g-3">
       <div class="col">
         <div class="donut-container">

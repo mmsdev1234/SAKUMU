@@ -9,7 +9,7 @@ const addData = async function (callback) {
         const rows = db.prepare(getKls).all();
         const krows = db.prepare(getKas).all();
         getSumberDana(function(data) {
-            return callback({status:"ok",sd:data,kls:rows,kas:krows});
+            return callback({status:"ok",sd:data,kls:rows, kas:krows});
         })
     } catch (error) {
         console.log(error);

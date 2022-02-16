@@ -1,15 +1,10 @@
 'use strict';
 const db = require('./database').db
 
-//fungsi yang akan digunakan di appCOntroller getSetSiswa
-//buat fungsi yang mempunyai parameter callback fungsi
 const getKelas = async function(callback) {
-  //buat query dimasukkan ke variable get
     let get = "SELECT *FROM KELAS ORDER BY kd";
     try {
-      // inisialisasi dengan better-sqlite3
         const rows = db.prepare(get).all();
-        //callback fungsi yang diisi dengan parameter query yang dimana akan dilempar ke controller
         return callback(rows);
     } catch (error) {
         console.log(error);
@@ -159,7 +154,7 @@ const delSelected = async function(nis,kelas, callback) {
 const editSiswa = async function(kd,nis,nama, callback) {
     let update = "UPDATE SISWA SET nama='"+nama+"' WHERE kelas='"+kd+"' and nis='"+nis+"'";
     try {
-        const pre = db.prepare(update).run();
+        const pre = db.prepare(update);
         const run = pre.run();
         if (run.changes > 0) {
             return callback({status: "ok", msg:"sukses"});
@@ -183,30 +178,14 @@ const getSiswa = async function(kelas, callback) {
 
 const addTemplate = async function(data_template, callback) {
   const maping = data_template.map(item => (`('${item.Nis}','${item.Nama}','${item.Kelas}')`))
-  // const dash = data_template.map(item => (`${item.Nis},${item.Nama},${item.Kelas}`))
   const conv = maping.toString()
-  // const dashing = dash
-  const tes = []
-  for (let i = 0; i < conv.length; i++) {
-    const nis = conv[i].Nis
-    return console.log(nis);
-  }
   console.log(conv);
-  let checkNis = `SELECT * FROM SISWA `;
-  // console.log(checkNis);
   let query = `INSERT INTO SISWA (nis,nama,kelas) VALUES ${conv}`
   try {
-    const row = db.prepare(checkNis).get(conv);
-    // console.log(row);
-        if (row) {
-            console.log("- gagal menambahkan siswa, NIS sudah terdaftar");
-            return callback({status:"no", msg: "gagal menambahkan siswa, NIS sudah terdaftar"});
-        }else{
-          const insert = db.prepare(query).run()
-          if (insert.changes > 0) {
-            callback({status:"ok", msg:"success"})
-          }
-        }
+    const insert = db.prepare(query).run()
+    if (insert.changes > 0) {
+      return callback({status:"ok", msg:"success"})
+    }
   } catch (error) {
     console.log();
   }

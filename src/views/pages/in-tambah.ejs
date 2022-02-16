@@ -41,14 +41,14 @@
                 </div>
             </div>
             <div class="row">
-                <label for="inpKas" class="col-sm-2 col-form-label">Kas</label>
-                <div class="col-sm">
-                    <select class="form-select form-select-sm" name="inpKas" id="inpKas" required>                          
-                        <% for( let i = 0; i < kas.length; i++ ) { %>
-                        <option value="<%= kas[i].id %>"><%= kas[i].nama %></option>
-                        <% } %>
-                    </select>
-                </div>
+              <label for="inpKas" class="col-sm-2 col-form-label">Kas</label>
+              <div class="col-sm">
+                <select class="form-select form-select-sm" name="inpKas" id="inpKas" required>
+                  <% for( let i = 0; i < kas.length; i++ ) { %>
+                  <option value="<%= kas[i].id %>"><%= kas[i].nama %></option>
+                  <% } %>                          
+                </select>
+              </div>
             </div>               
         </div>
     </div>
