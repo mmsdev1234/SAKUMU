@@ -7,6 +7,7 @@ const menu = require('../data/getMenu');
 
 //function blank page -> /pages/in-menu-null.ejs => '/'
 const noMenu = async (req,res) => {
+
     getmenu(function(listmenu) {
         res.render('./pages/in-menu-null',{
             title: 'Penerimaan',
@@ -23,6 +24,7 @@ const noMenu = async (req,res) => {
 const get = async (req,res) => {
     const no = req.params.no;
     const getdate = req.query.date;
+    console.log(getdate);
     await inData.getData(no,getdate,function(data) {
         let listdata = [];
         for(let i=0;i<data.rows.length;i++){
@@ -71,7 +73,7 @@ const get = async (req,res) => {
                     dkas: listkas,
                     listmenu,
                     dbs,
-                    filter: data.filter,
+                    currentdate: data.filter,
                     msg: req.flash('msg')
                 });
             });

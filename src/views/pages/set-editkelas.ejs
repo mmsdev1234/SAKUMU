@@ -68,7 +68,7 @@
 
                     <h6 class="mt-3"><i class="bi bi-stickies px-0 me-2"></i>Upload Template</h6>
                     <div class="card mt-2 p-3">
-                        <form action="/settings/editkelas/upload" enctype="multipart/form-data" method="post">
+                        <form action="/settings/editkelas/upload?kd=<%= kd %>" enctype="multipart/form-data" method="post">
                             <div class="row">
                                 <div class="text-end me-3 col-sm">
                                     <input type="file" class="form-control form-control-sm" name="formFileTemplate" id="formFileTemplate"  required>

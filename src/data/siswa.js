@@ -181,18 +181,18 @@ const getSiswa = async function(kelas, callback) {
 }
 
 const addTemplate = async function(data_template, callback) {
-  const maping = data_template.map(item => (`('${item.Nis}','${item.Nama}','${item.Kelas}')`))
-  const conv = maping.toString()
-  console.log(conv);
-  let query = `INSERT INTO SISWA (nis,nama,kelas) VALUES ${conv}`
-  try {
-    const insert = db.prepare(query).run()
-    if (insert.changes > 0) {
-      return callback({status:"ok", msg:"success"})
+    try {
+        const maping = data_template.map(item => (`('${item.Nis}','${item.Nama}','${item.Kelas}')`))
+        const conv = maping.toString()
+        //console.log(conv);
+        let query = `INSERT INTO SISWA (nis,nama,kelas) VALUES ${conv}`
+        const insert = db.prepare(query).run()
+        if (insert.changes > 0) {
+            return callback({status:"ok", msg:"success"})
+        }
+    } catch (error) {
+        console.log();
     }
-  } catch (error) {
-    console.log();
-  }
 }
 
 module.exports = {

@@ -117,7 +117,8 @@ const getEditKelas = async (req, res) => {
                             menu: 'siswa',
                             layout: 'settings-layout',
                             listmenu,
-                            data
+                            data,
+                            kd
                         });
                     });
                 });
@@ -495,8 +496,10 @@ const uploadTemplate = async function(req, res, next){
                     };
                     data_Template.push(tutorial);
                   });
-                  next()
+                  //next()
                  return appSiswa.addTemplate(data_Template, function(data) {
+                     console.log(kd);
+                     console.log(data);
                     if (data.status === "ok") {
                       res.redirect("/settings/editkelas?kd="+kd);
                     }else{

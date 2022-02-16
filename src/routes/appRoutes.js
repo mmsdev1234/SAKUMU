@@ -23,6 +23,7 @@ router.get('/settings/kas', appControll.getSetKas);
 router.get('/settings/menu', appControll.getSetMenu);
 router.get('/settings/siswa', appControll.getSetSiswa);
 router.get('/app/sync', mainControll.getSync);
+router.get('/settings/editkelas', appControll.getEditKelas);
 
 //POST
 router.post('/aktivasi', mainControll.postAktivasi);
@@ -36,7 +37,6 @@ router.post('/settings/editmenu', appControll.editMenu);
 router.post('/settings/addsumberdana', appControll.addNewDana);
 router.post('/settings/delsumberdana', appControll.delDana);
 router.post('/settings/addkelas', appControll.addNewKelas);
-router.get('/settings/editkelas', appControll.getEditKelas);
 router.post('/settings/editkelas', appControll.postEditKelas);
 router.post('/settings/delete/kelas', appControll.postDeleteKelas);
 router.post('/settings/addsiswa', appControll.addDataSiswa);
