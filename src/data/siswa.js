@@ -182,14 +182,18 @@ const getSiswa = async function(kelas, callback) {
 
 const addTemplate = async function(data_template, kd, callback) {
     try {
-        const filter = data_template.filter(item => item.kelas === data_template)
+        const filter = data_template.filter(item => item.Kelas === kd)
         const maping = filter.map(item => (`('${item.Nis}','${item.Nama}','${item.Kelas}')`))
         const conv = maping.toString()
         console.log(data_template);
+        console.log(filter);
         let query = `INSERT INTO SISWA (nis,nama,kelas) VALUES ${conv}`
-        const insert = db.prepare(query).run()
+        const insert = db.prepare(query).run();
+        console.log(insert);
         if (insert.changes > 0) {
             return callback({status:"ok", msg:"success"})
+        }else{
+            return callback({status:"no", msg:"duplicate nis"})
         }
     } catch (error) {
         console.log();
