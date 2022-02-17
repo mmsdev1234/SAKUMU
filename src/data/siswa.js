@@ -185,18 +185,21 @@ const addTemplate = async function(data_template, kd, callback) {
         const filter = data_template.filter(item => item.Kelas === kd)
         const maping = filter.map(item => (`('${item.Nis}','${item.Nama}','${item.Kelas}')`))
         const conv = maping.toString()
-        console.log(data_template);
-        console.log(filter);
+        //console.log(data_template);
+        //console.log(filter);
         let query = `INSERT INTO SISWA (nis,nama,kelas) VALUES ${conv}`
         const insert = db.prepare(query).run();
         console.log(insert);
         if (insert.changes > 0) {
             return callback({status:"ok", msg:"success"})
         }else{
-            return callback({status:"no", msg:"duplicate nis"})
+            return callback({status:"no", msg:"tidak ada perubahan"})
         }
     } catch (error) {
-        console.log();
+        //console.log(error);
+        if (error.code === 'SQLITE_CONSTRAINT_PRIMARYKEY') {
+            return callback({status:"no", msg:"terdeteksi ada data nis yang sudah terdaftar"})
+        }
     }
 }
 

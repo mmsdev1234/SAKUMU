@@ -118,7 +118,8 @@ const getEditKelas = async (req, res) => {
                             layout: 'settings-layout',
                             listmenu,
                             data,
-                            kd
+                            kd,
+                            err: req.flash('err')
                         });
                     });
                 });
@@ -503,6 +504,7 @@ const uploadTemplate = async function(req, res, next){
                     if (data.status === "ok") {
                       res.redirect("/settings/editkelas?kd="+kd);
                     }else{
+                        req.flash('err', data.msg);
                       res.redirect("/settings/editkelas?kd="+kd);
                   }
                   })
