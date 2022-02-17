@@ -180,11 +180,12 @@ const getSiswa = async function(kelas, callback) {
     }
 }
 
-const addTemplate = async function(data_template, callback) {
+const addTemplate = async function(data_template, kd, callback) {
     try {
-        const maping = data_template.map(item => (`('${item.Nis}','${item.Nama}','${item.Kelas}')`))
+        const filter = data_template.filter(item => item.kelas === data_template)
+        const maping = filter.map(item => (`('${item.Nis}','${item.Nama}','${item.Kelas}')`))
         const conv = maping.toString()
-        //console.log(conv);
+        console.log(data_template);
         let query = `INSERT INTO SISWA (nis,nama,kelas) VALUES ${conv}`
         const insert = db.prepare(query).run()
         if (insert.changes > 0) {

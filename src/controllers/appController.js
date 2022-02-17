@@ -497,7 +497,7 @@ const uploadTemplate = async function(req, res, next){
                     data_Template.push(tutorial);
                   });
                   //next()
-                 return appSiswa.addTemplate(data_Template, function(data) {
+                 return appSiswa.addTemplate(data_Template, kd, function(data) {
                      console.log(kd);
                      console.log(data);
                     if (data.status === "ok") {
